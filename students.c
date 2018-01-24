@@ -3,11 +3,12 @@
  * the assignment.  Make sure to add your name and @oregonstate.edu email
  * address below:
  *
- * Name:
- * Email:
+ * Name: Martin D. Nguyen
+ * Email: nguymart@oregonstate.edu
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "students.h"
 
@@ -32,7 +33,14 @@
  *   gpa - the student's GPA
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
-
+	char new_name[strlen(name)];
+	strcopy(name, new_name);
+	//char *new_name_ptr;
+	//new_name_ptr = new_name;
+	//*student.name = new_name_ptr;
+	student->name = new_name;
+	student->id = id;
+	student->gpa = gpa;
 }
 
 
@@ -46,7 +54,9 @@ void init_student(struct student* student, char* name, int id, float gpa) {
  *     struct itself should not be freed.
  */
 void free_student(struct student* student) {
-
+	free(student->name);
+	free(student->id);
+	free(student->gpa);
 }
 
 
