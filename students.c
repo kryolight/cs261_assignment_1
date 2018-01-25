@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "students.h"
 
@@ -36,7 +35,7 @@
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
 	char *new_name;
-	new_name = 	malloc(sizeof *new_name * (strlen(names)+1));
+	new_name = 	malloc(sizeof *new_name * (strlen(name)+1));
 	strcopy(name, new_name);
 	//char *new_name_ptr;
 	//new_name_ptr = new_name;
@@ -84,7 +83,7 @@ void free_student(struct student* student) {
 struct student* deep_copy_student(struct student* student) {
   struct student *copy_student;
   copy_student = malloc(sizeof *copy_student);
-  init_student(copy_student, student->name, student->id, student->gpa)
+  init_student(copy_student, student->name, student->id, student->gpa);
   return copy_student;
 }
 
@@ -121,7 +120,7 @@ struct student* create_student_array(int num_students, char** names, int* ids,
 	//students = malloc(sizeof(struct student) * num_students);
 	for (int i = 0; i < num_students; ++i)
 	{
-		init_student(students[i], names[i], ids[i], gpas[i]);
+		init_student(&students[i], names[i], ids[i], gpas[i]);
 	}
 	return students;
 }
@@ -141,7 +140,7 @@ struct student* create_student_array(int num_students, char** names, int* ids,
 void destroy_student_array(struct student* students, int num_students) {
 	for (int i = 0; i < num_students; ++i)
 	{
-		free_student(students[i]);
+		free_student(&students[i]);
 	}
 	free(students);
 }
@@ -158,7 +157,7 @@ void destroy_student_array(struct student* students, int num_students) {
 void print_students(struct student* students, int num_students) {
 	for (int i = 0; i < num_students; ++i)
 	{
-		printf("name: %s, id: %d, gpa: %f\n", students[i]->name, students[i]->id, students[i]->gpa);
+		printf("name: %s, id: %d, gpa: %f\n", students[i].name, students[i].id, students[i].gpa);
 	}
 }
 
@@ -180,12 +179,12 @@ void print_students(struct student* students, int num_students) {
  */
 struct student* find_max_gpa(struct student* students, int num_students) {
   struct student *high_gpa_student;
-  high_gpa_student = students[0];
+  high_gpa_student = &students[0];
   for (int i = 1; i < num_students; ++i)
   {
-  	if (high_gpa_student->gpa < students[i]->gpa)
+  	if (high_gpa_student->gpa < students[i].gpa)
   	{
-  		high_gpa_student = students[i];
+  		high_gpa_student = &students[i];
   	}
   }
   return high_gpa_student;
