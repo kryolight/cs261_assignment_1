@@ -35,8 +35,8 @@
  *   gpa - the student's GPA
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
-	char new_name;
-	new_name = (char*)malloc(sizeof(char) * (strlen(names)+1));
+	char *new_name;
+	new_name = 	malloc(sizeof *new_name * (strlen(names)+1));
 	strcopy(name, new_name);
 	//char *new_name_ptr;
 	//new_name_ptr = new_name;
@@ -82,7 +82,10 @@ void free_student(struct student* student) {
  *   using a combination of free_student() and free().
  */
 struct student* deep_copy_student(struct student* student) {
-  return NULL;
+  struct student *copy_student;
+  copy_student = malloc(sizeof *copy_student);
+  init_student(copy_student, student->name, student->id, student->gpa)
+  return copy_student;
 }
 
 
@@ -114,8 +117,13 @@ struct student* deep_copy_student(struct student* student) {
  */
 struct student* create_student_array(int num_students, char** names, int* ids,
     float* gpas) {
-
-  return NULL;
+	struct student* students = malloc(num_students * sizeof *students);
+	//students = malloc(sizeof(struct student) * num_students);
+	for (int i = 0; i < num_students; ++i)
+	{
+		init_student(students[i], names[i], ids[i], gpas[i]);
+	}
+	return students;
 }
 
 
@@ -131,7 +139,11 @@ struct student* create_student_array(int num_students, char** names, int* ids,
  *   num_students - the number of students in the array
  */
 void destroy_student_array(struct student* students, int num_students) {
-
+	for (int i = 0; i < num_students; ++i)
+	{
+		free_student(students[i]);
+	}
+	free(students);
 }
 
 
@@ -144,7 +156,10 @@ void destroy_student_array(struct student* students, int num_students) {
  *   num_students - the number of students in the array
  */
 void print_students(struct student* students, int num_students) {
-
+	for (int i = 0; i < num_students; ++i)
+	{
+		printf("name: %s, id: %d, gpa: %f\n", students[i]->name, students[i]->id, students[i]->gpa);
+	}
 }
 
 
@@ -164,7 +179,16 @@ void print_students(struct student* students, int num_students) {
  *   should not make a copy of the student being returned.
  */
 struct student* find_max_gpa(struct student* students, int num_students) {
-  return NULL;
+  struct student *high_gpa_student;
+  high_gpa_student = students[0];
+  for (int i = 1; i < num_students; ++i)
+  {
+  	if (high_gpa_student->gpa < students[i]->gpa)
+  	{
+  		high_gpa_student = students[i];
+  	}
+  }
+  return high_gpa_student;
 }
 
 
@@ -184,7 +208,16 @@ struct student* find_max_gpa(struct student* students, int num_students) {
  *   should not make a copy of the student being returned.
  */
 struct student* find_min_gpa(struct student* students, int num_students) {
-  return NULL;
+  struct student *low_gpa_student;
+  low_gpa_student = students[0];
+  for (int i = 1; i < num_students; ++i)
+  {
+  	if (low_gpa_student->gpa > students[i]->gpa)
+  	{
+  		low_gpa_student = students[i];
+  	}
+  }
+  return low_gpa_student;
 }
 
 
@@ -202,5 +235,25 @@ struct student* find_min_gpa(struct student* students, int num_students) {
  *   num_students - the number of students in the array
  */
 void sort_by_gpa(struct student* students, int num_students) {
-
+	bool swapped;
+	struct student *temp_student;
+	do {
+		swapped = false;
+		for (int j = 1; j < num_students-1; ++j)
+		{
+			//struct student *temp_student;
+			//temp_student = deep_copy_student(students[j-1]);
+			if (student[j-1]->gpa < students[j]->gpa)
+			{
+				swapped = true;
+				temp_student = deep_copy_student(students[j-1]);
+				free_student(students[j-1]);
+				init_student(students[j-1], students[j]->name, students[j]->id, students[j]->gpa);
+				free_student(students[j]);
+				init_student(students[j], temp_student->name, temp_student->id, temp_student->gpa);
+				free_student(temp_student);
+				free(temp_student);
+			}
+		}
+	} while(swapped = true);
 }
