@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "students.h"
 
@@ -36,7 +37,7 @@
 void init_student(struct student* student, char* name, int id, float gpa) {
 	char *new_name;
 	new_name = 	malloc(sizeof *new_name * (strlen(name)+1));
-	strcopy(name, new_name);
+	strcpy(name, new_name);
 	//char *new_name_ptr;
 	//new_name_ptr = new_name;
 	//*student.name = new_name_ptr;
@@ -208,12 +209,12 @@ struct student* find_max_gpa(struct student* students, int num_students) {
  */
 struct student* find_min_gpa(struct student* students, int num_students) {
   struct student *low_gpa_student;
-  low_gpa_student = students[0];
+  low_gpa_student = &students[0];
   for (int i = 1; i < num_students; ++i)
   {
-  	if (low_gpa_student->gpa > students[i]->gpa)
+  	if (low_gpa_student->gpa > students[i].gpa)
   	{
-  		low_gpa_student = students[i];
+  		low_gpa_student = &students[i];
   	}
   }
   return low_gpa_student;
@@ -242,14 +243,14 @@ void sort_by_gpa(struct student* students, int num_students) {
 		{
 			//struct student *temp_student;
 			//temp_student = deep_copy_student(students[j-1]);
-			if (student[j-1]->gpa < students[j]->gpa)
+			if (students[j-1].gpa < students[j].gpa)
 			{
 				swapped = true;
-				temp_student = deep_copy_student(students[j-1]);
-				free_student(students[j-1]);
-				init_student(students[j-1], students[j]->name, students[j]->id, students[j]->gpa);
-				free_student(students[j]);
-				init_student(students[j], temp_student->name, temp_student->id, temp_student->gpa);
+				temp_student = deep_copy_student(&students[j-1]);
+				free_student(&students[j-1]);
+				init_student(&students[j-1], students[j].name, students[j].id, students[j].gpa);
+				free_student(&students[j]);
+				init_student(&students[j], temp_student->name, temp_student->id, temp_student->gpa);
 				free_student(temp_student);
 				free(temp_student);
 			}
