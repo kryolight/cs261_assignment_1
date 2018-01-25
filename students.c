@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "students.h"
 
@@ -33,7 +35,8 @@
  *   gpa - the student's GPA
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
-	char new_name[strlen(name)];
+	char new_name;
+	new_name = (char*)malloc(sizeof(char) * (strlen(names)+1));
 	strcopy(name, new_name);
 	//char *new_name_ptr;
 	//new_name_ptr = new_name;
@@ -55,8 +58,8 @@ void init_student(struct student* student, char* name, int id, float gpa) {
  */
 void free_student(struct student* student) {
 	free(student->name);
-	free(student->id);
-	free(student->gpa);
+	//free(student->id);
+	//free(student->gpa);
 }
 
 
