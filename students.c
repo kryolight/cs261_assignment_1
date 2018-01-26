@@ -37,7 +37,7 @@
 void init_student(struct student* student, char* name, int id, float gpa) {
 	char *new_name;
 	new_name = 	malloc(sizeof *new_name * (strlen(name)+1));
-	strcpy(name, new_name);
+	strcpy(new_name, name);
 	//char *new_name_ptr;
 	//new_name_ptr = new_name;
 	//*student.name = new_name_ptr;
@@ -239,7 +239,7 @@ void sort_by_gpa(struct student* students, int num_students) {
 	struct student *temp_student;
 	do {
 		swapped = false;
-		for (int j = 1; j < num_students-1; ++j)
+		for (int j = 1; j < num_students; ++j)
 		{
 			//struct student *temp_student;
 			//temp_student = deep_copy_student(students[j-1]);
@@ -255,5 +255,5 @@ void sort_by_gpa(struct student* students, int num_students) {
 				free(temp_student);
 			}
 		}
-	} while(swapped = true);
+	} while(swapped == true);
 }
